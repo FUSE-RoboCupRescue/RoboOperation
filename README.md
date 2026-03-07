@@ -70,3 +70,13 @@ in another terminal
 ```
 rostopic echo /joy
 ```
+
+
+
+
+
+
+
+
+ls /dev/ttyACM*
+
