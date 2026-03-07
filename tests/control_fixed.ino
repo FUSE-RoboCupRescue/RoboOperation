@@ -94,11 +94,11 @@ void loop() {
 
 void driveML(int spd) {
   if (spd > 0) {
-    analogWrite(ML_SPD, spd); // needs to be remap to 255-0 (255 is stop 0 is max)
+    analogWrite(ML_SPD, 255 - spd); // needs to be remap to 255-0 (255 is stop 0 is max)
     digitalWrite(ML_BRK, 0);
     digitalWrite(ML_FB, 0);
   } else if (spd < 0) {
-    analogWrite(ML_SPD, -spd);
+    analogWrite(ML_SPD, 255 + spd);
     digitalWrite(ML_BRK, 0);
     digitalWrite(ML_FB, 1);
   } else {
@@ -110,11 +110,11 @@ void driveML(int spd) {
 
 void driveMR(int spd) {
   if (spd > 0) {
-    analogWrite(MR_SPD, spd);
+    analogWrite(MR_SPD, 255 - spd);
     digitalWrite(MR_BRK, 0);
     digitalWrite(MR_FB, 0);
   } else if (spd < 0) {
-    analogWrite(MR_SPD, -spd);
+    analogWrite(MR_SPD, 255 + spd);
     digitalWrite(MR_BRK, 0);
     digitalWrite(MR_FB, 1);
   } else {
@@ -126,11 +126,11 @@ void driveMR(int spd) {
 
 void driveF1(int spd) {
   if (spd > 0) {
-    analogWrite(F1_SPD, spd);
+    analogWrite(F1_SPD, 255 - spd);
     digitalWrite(F1_BRK, 0);
     digitalWrite(F1_FB, 0);
   } else if (spd < 0) {
-    analogWrite(F1_SPD, -spd);
+    analogWrite(F1_SPD, 255 + spd);
     digitalWrite(F1_BRK, 0);
     digitalWrite(F1_FB, 1);
   } else {
@@ -142,11 +142,11 @@ void driveF1(int spd) {
 
 void driveF2(int spd) {
   if (spd > 0) {
-    analogWrite(F2_SPD, spd);
+    analogWrite(F2_SPD, 255 - spd);
     digitalWrite(F2_BRK, 0);
     digitalWrite(F2_FB, 0);
   } else if (spd < 0) {
-    analogWrite(F2_SPD, -spd);
+    analogWrite(F2_SPD, 255 + spd);
     digitalWrite(F2_BRK, 0);
     digitalWrite(F2_FB, 1);
   } else {
@@ -158,11 +158,11 @@ void driveF2(int spd) {
 
 void driveF3(int spd) {
   if (spd > 0) {
-    analogWrite(F3_SPD, spd);
+    analogWrite(F3_SPD, 255 - spd);
     digitalWrite(F3_BRK, 0);
     digitalWrite(F3_FB, 0);
   } else if (spd < 0) {
-    analogWrite(F3_SPD, -spd);
+    analogWrite(F3_SPD, 255 + spd);
     digitalWrite(F3_BRK, 0);
     digitalWrite(F3_FB, 1);
   } else {
@@ -174,11 +174,11 @@ void driveF3(int spd) {
 
 void driveF4(int spd) {
   if (spd > 0) {
-    analogWrite(F4_SPD, spd);
+    analogWrite(F4_SPD, 255 - spd);
     digitalWrite(F4_BRK, 0);
     digitalWrite(F4_FB, 0);
   } else if (spd < 0) {
-    analogWrite(F4_SPD, -spd);
+    analogWrite(F4_SPD, 255 + spd);
     digitalWrite(F4_BRK, 0);
     digitalWrite(F4_FB, 1);
   } else {
