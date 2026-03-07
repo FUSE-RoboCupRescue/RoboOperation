@@ -52,5 +52,8 @@ def joy2string(buttons, axes):
     flipper_front = int(flipper_front)
     flipper_back = int(flipper_back)
 
-    out = f"{track_right} {track_left} {flipper_front} {-flipper_front} {-flipper_back} {flipper_back}"
+    out = f"{track_right} {track_left} {-flipper_front} {flipper_front} {flipper_back} {-flipper_back}"
     return out
+
+def control_arm(buttons, axes):
+    pass

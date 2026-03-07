@@ -3,7 +3,7 @@ import rospy
 from sensor_msgs.msg import Joy
 import serial
 import time
-from utils import joy2string
+from utils import *
 
 # --- CONFIGURATION ---
 PORT = '/dev/ttyACM0'
@@ -26,6 +26,7 @@ class JoyToTeensy:
         # State for joystick
         self.latest_buttons = []
         self.latest_axes = []
+        self.mode = 0  # 0: tank, 1: arm
 
         # Subscribe to joystick
         self.sub = rospy.Subscriber("joy", Joy, self.joy_callback)
@@ -39,18 +40,40 @@ class JoyToTeensy:
         self.latest_buttons = data.buttons
         self.latest_axes = data.axes
 
+    def send_tracks_command(msg):
+        self.ser.write((msg + "\n").encode("utf-8"))
+        rospy.loginfo("Sending message: %s", msg)
+        response = self.ser.readline().decode('utf-8').strip()
+        if response:
+            rospy.loginfo("Teensy Response: %s", response)
+        else:
+            rospy.logwarn("No response from Teensy (timeout)")
+
     def loop(self):
         rate = rospy.Rate(PUBLISH_RATE)
         while not rospy.is_shutdown():
             if self.latest_buttons or self.latest_axes:
-                msg = joy2string(self.latest_buttons, self.latest_axes)
-                self.ser.write((msg + "\n").encode("utf-8"))
-                rospy.loginfo("Sending message: %s", msg)
-                response = self.ser.readline().decode('utf-8').strip()
-                if response:
-                    rospy.loginfo("Teensy Response: %s", response)
+                
+                # Change control mode
+                if self.latest_buttons[BUTTON_X]:
+                    self.send_tracks_command("0 0 0 0 0 0")
+                    self.mode = 0
+                
+                elif self.latest_buttons[BUTTON_Y]:
+                    self.send_tracks_command("0 0 0 0 0 0")
+                    self.mode = 1
+                
+                # Control robot
+                if self.mode == 0:
+                    msg = joy2string(self.latest_buttons, self.latest_axes)
+                    self.send_tracks_command(msg)
+                
+                elif self.mode == 1:
+                    control_arm(self.latest_buttons, self.latest_axes)
+
                 else:
-                    rospy.logwarn("No response from Teensy (timeout)")
+                    self.send_tracks_command("0 0 0 0 0 0")
+                
             rate.sleep()
 
 if __name__ == '__main__':
