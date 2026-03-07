@@ -3,48 +3,58 @@ import rospy
 from sensor_msgs.msg import Joy
 import serial
 import time
+from utils import joy2string
 
 # --- CONFIGURATION ---
-PORT = '/dev/ttyACM0' 
+PORT = '/dev/ttyACM0'
 BAUD = 115200
-BUTTON_INDEX = 0  # Typically the 'A' or 'X' button depending on controller
+PUBLISH_RATE = 60  # Hz
 
 class JoyToTeensy:
     def __init__(self):
         rospy.init_node('joy_to_teensy_bridge')
-        self.last_button_state = 0
 
         # Initialize Serial
         try:
             self.ser = serial.Serial(PORT, BAUD, timeout=1)
-            time.sleep(2) # Wait for Teensy reset
+            time.sleep(2)  # Wait for Teensy reset
             rospy.loginfo("Connected to Teensy on %s", PORT)
         except Exception as e:
             rospy.logerr("Could not connect to Serial: %s", e)
             return
 
-        # Subscribe to the joy topic coming from the Master PC
+        # State for joystick
+        self.latest_buttons = []
+        self.latest_axes = []
+
+        # Subscribe to joystick
         self.sub = rospy.Subscriber("joy", Joy, self.joy_callback)
-        rospy.loginfo("Bridge Node Ready. Press button %s to send command.", BUTTON_INDEX)
+        rospy.loginfo("Bridge Node Ready.")
+
+        # Start the loop
+        self.loop()
 
     def joy_callback(self, data):
-        current_state = data.buttons[BUTTON_INDEX]
+        # Always save the latest joystick state
+        self.latest_buttons = data.buttons
+        self.latest_axes = data.axes
 
-        if current_state == 1 and self.last_button_state == 0:
-            rospy.loginfo("Button Pressed! Sending '1' to Teensy.")
-            self.ser.write(b'1\n')
-
-            response = self.ser.readline().decode('utf-8').strip()
-            if response:
-                rospy.loginfo("Teensy Response: %s", response)
-            else:
-                rospy.logwarn("No response from Teensy (timeout)")
-
-        self.last_button_state = current_state
+    def loop(self):
+        rate = rospy.Rate(PUBLISH_RATE)
+        while not rospy.is_shutdown():
+            if self.latest_buttons or self.latest_axes:
+                msg = joy2string(self.latest_buttons, self.latest_axes)
+                self.ser.write((msg + "\n").encode("utf-8"))
+                rospy.loginfo("Sending message: %s", msg)
+                response = self.ser.readline().decode('utf-8').strip()
+                if response:
+                    rospy.loginfo("Teensy Response: %s", response)
+                else:
+                    rospy.logwarn("No response from Teensy (timeout)")
+            rate.sleep()
 
 if __name__ == '__main__':
     try:
         JoyToTeensy()
-        rospy.spin()
     except rospy.ROSInterruptException:
         pass
