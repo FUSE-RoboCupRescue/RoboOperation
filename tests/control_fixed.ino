@@ -30,7 +30,7 @@ void setup() {
     // motor l
     pinMode(ML_FB, OUTPUT); //FB
     pinMode(ML_BRK, OUTPUT); //break
-    //  analogWriteFrequency(ML_SPD, 1000);
+    analogWriteFrequency(ML_SPD, 1000);
 
     // motor r
     pinMode(MR_FB, OUTPUT);
