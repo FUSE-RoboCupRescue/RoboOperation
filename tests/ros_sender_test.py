@@ -12,7 +12,8 @@ BUTTON_INDEX = 0  # Typically the 'A' or 'X' button depending on controller
 class JoyToTeensy:
     def __init__(self):
         rospy.init_node('joy_to_teensy_bridge')
-        
+        self.last_button_state = 0
+
         # Initialize Serial
         try:
             self.ser = serial.Serial(PORT, BAUD, timeout=1)
@@ -27,15 +28,19 @@ class JoyToTeensy:
         rospy.loginfo("Bridge Node Ready. Press button %s to send command.", BUTTON_INDEX)
 
     def joy_callback(self, data):
-        # data.buttons is a list. 1 = pressed, 0 = released
-        if data.buttons[BUTTON_INDEX] == 1:
+        current_state = data.buttons[BUTTON_INDEX]
+
+        if current_state == 1 and self.last_button_state == 0:
             rospy.loginfo("Button Pressed! Sending '1' to Teensy.")
-            self.ser.write(b'1\n') # Send '1' and a newline
-            
-            # Read feedback from Teensy (optional)
-            if self.ser.in_waiting > 0:
-                response = self.ser.readline().decode('utf-8').strip()
+            self.ser.write(b'1\n')
+
+            response = self.ser.readline().decode('utf-8').strip()
+            if response:
                 rospy.loginfo("Teensy Response: %s", response)
+            else:
+                rospy.logwarn("No response from Teensy (timeout)")
+
+        self.last_button_state = current_state
 
 if __name__ == '__main__':
     try:
