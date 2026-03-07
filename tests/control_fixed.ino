@@ -56,6 +56,13 @@ void setup() {
     pinMode(F4_FB, OUTPUT);
     pinMode(F4_BRK, OUTPUT);
     analogWriteFrequency(F4_FB, 1000);
+
+    driveMR(0);
+    driveML(0);
+    driveF1(0);
+    driveF2(0);
+    driveF3(0);
+    driveF4(0);
 }
 
 void loop() {
@@ -89,15 +96,6 @@ void loop() {
             Serial.print(velocity[i]);;
             Serial.print(";");  // explicit carriage return + newline
         }
-    }
-    else
-    {
-        driveMR(0);
-        driveML(0);
-        driveF1(0);
-        driveF2(0);
-        driveF3(0);
-        driveF4(0);
     }
 }
 
