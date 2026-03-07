@@ -39,22 +39,22 @@ void setup() {
 
     // flipper 1
     pinMode(F1_FB, OUTPUT);
-    pinMode(F1_FB, OUTPUT);
+    pinMode(F1_BRK, OUTPUT);
     analogWriteFrequency(F1_FB, 1000);
 
     // flipper 2
     pinMode(F2_FB, OUTPUT);
-    pinMode(F2_FB, OUTPUT);
+    pinMode(F2_BRK, OUTPUT);
     analogWriteFrequency(F2_FB, 1000);
 
     // flipper 3
     pinMode(F3_FB, OUTPUT);
-    pinMode(F3_FB, OUTPUT);
+    pinMode(F3_BRK, OUTPUT);
     analogWriteFrequency(F3_FB, 1000);
 
     // flipper 4
     pinMode(F4_FB, OUTPUT);
-    pinMode(F4_FB, OUTPUT);
+    pinMode(F4_BRK, OUTPUT);
     analogWriteFrequency(F4_FB, 1000);
 }
 
