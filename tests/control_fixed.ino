@@ -90,6 +90,15 @@ void loop() {
             Serial.print(";");  // explicit carriage return + newline
         }
     }
+    else
+    {
+        driveMR(0);
+        driveML(0);
+        driveF1(0);
+        driveF2(0);
+        driveF3(0);
+        driveF4(0);
+    }
 }
 
 void driveML(int spd) {
