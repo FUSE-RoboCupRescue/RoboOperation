@@ -11,9 +11,9 @@ JOY_LEFT_Y = 1
 JOY_RIGHT_X = 2
 JOY_RIGHT_Y = 3
 
-MAX_FLIPPER_VEL = 10
-MAX_LINEAR_VEL = 25
-MAX_ANGULAR_VEL = 25  # Should be in radians but stfu
+MAX_FLIPPER_VEL = 40
+MAX_LINEAR_VEL = 50
+MAX_ANGULAR_VEL = 50  # Should be in radians but stfu
 
 def joy2string(buttons, axes):
     # This is just for the teensy!!!

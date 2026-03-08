@@ -26,16 +26,22 @@ sudo nmcli con up "WIRED_CON_NAME"
 
 
 
-sudo docker build -t ros_melodic_joy .
+
 
 ## joystick connection and test
 
+build the docker file
+
+```
+sudo docker build -t ros_melodic_joy .
+```
+
 run the docker file
+
 
 ```
 sudo docker run -it --rm --net=host --privileged --device=/dev/input/js0:/dev/input/js0 ros_melodic_joy
 ```
-
 
 check your joystick id 
 
@@ -57,7 +63,7 @@ rosrun joy joy_node _dev:=/dev/input/js0
 ```
 
 
-on the jeston
+on the jetson
 
 ```
 export ROS_MASTER_URI=http://192.168.1.10:11311
@@ -71,12 +77,16 @@ in another terminal
 rostopic echo /joy
 ```
 
+for getting the image
+
+```
+rosrun image_view image_view image:=/camera/image_raw
+```
 
 
-
-
-
-
+regarding  teensy
 
 ls /dev/ttyACM*
+
+
 

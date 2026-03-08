@@ -40,7 +40,7 @@ class JoyToTeensy:
         self.latest_buttons = data.buttons
         self.latest_axes = data.axes
 
-    def send_tracks_command(msg):
+    def send_tracks_command(self, msg):
         self.ser.write((msg + "\n").encode("utf-8"))
         rospy.loginfo("Sending message: %s", msg)
         response = self.ser.readline().decode('utf-8').strip()
