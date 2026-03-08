@@ -31,6 +31,7 @@ class JoyToTeensy:
         # Subscribe to joystick
         self.sub = rospy.Subscriber("joy", Joy, self.joy_callback)
         rospy.loginfo("Bridge Node Ready.")
+        self.arm_ctrl = XPiperController()
 
         # Start the loop
         self.loop()
@@ -69,7 +70,7 @@ class JoyToTeensy:
                     self.send_tracks_command(msg)
                 
                 elif self.mode == 1:
-                    control_arm(self.latest_buttons, self.latest_axes)
+                    self.arm_ctrl.move(self.latest_buttons, self.latest_axes)
 
                 else:
                     self.send_tracks_command("0 0 0 0 0 0")
