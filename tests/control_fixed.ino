@@ -69,6 +69,13 @@ void setup()
 
     pinMode(LIGHT, OUTPUT);
 
+    velocity[0] = 0;
+    velocity[1] = 0;
+    velocity[2] = 0;
+    velocity[3] = 0;
+    velocity[4] = 0;
+    velocity[5] = 0;
+
     driveMR(0);
     driveML(0);
     driveFFR(0);
