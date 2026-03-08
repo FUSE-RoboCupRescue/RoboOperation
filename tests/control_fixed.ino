@@ -32,6 +32,10 @@
 #define FBL_SPD 14
 #define FBL_LS 27
 
+#define LIGHT 7
+
+int velocity[6];
+
 
 void setup()
 {
@@ -45,23 +49,25 @@ void setup()
 
     pinMode(FFR_FB, OUTPUT);
     pinMode(FFR_BRK, OUTPUT);
-    analogWriteFrequency(FFR_FB, 1000);
+    analogWriteFrequency(FFR_SPD, 1000);
     pinMode(FFR_LS, INPUT);
 
     pinMode(FFL_FB, OUTPUT);
     pinMode(FFL_BRK, OUTPUT);
-    analogWriteFrequency(FFL_FB, 1000);
+    analogWriteFrequency(FFL_SPD, 1000);
     pinMode(FFL_LS, INPUT);
 
     pinMode(FBR_FB, OUTPUT);
     pinMode(FBR_BRK, OUTPUT);
-    analogWriteFrequency(FBR_FB, 1000);
+    analogWriteFrequency(FBR_SPD, 1000);
     pinMode(FBR_LS, INPUT);
 
     pinMode(FBL_FB, OUTPUT);
     pinMode(FBL_BRK, OUTPUT);
-    analogWriteFrequency(FBL_FB, 1000);
+    analogWriteFrequency(FBL_SPD, 1000);
     pinMode(FBL_LS, INPUT);
+
+    pinMode(LIGHT, OUTPUT);
 
     driveMR(0);
     driveML(0);
@@ -76,12 +82,13 @@ void setup()
 
 void loop()
 {
+    digitalWrite(LIGHT, 0);
+    
     if (Serial.available() > 0)
     {
         String incoming = Serial.readStringUntil('\n');
         incoming.trim();
 
-        int velocity[6];
         int count = 0;
         String temp = incoming;
 
@@ -94,21 +101,6 @@ void loop()
                 break;
             temp = temp.substring(idx + 1);
         }
-
-        driveMR(velocity[0]);
-        driveML(velocity[1]);
-        
-        if (digitalRead(FFR_LS)) driveFFR(0);
-        else driveFFR(velocity[2]);
-
-        if (digitalRead(FFL_LS)) driveFFL(0);
-        else driveFFL(velocity[3]);
-
-        if (digitalRead(FBR_LS)) driveFBR(0);
-        else driveFBR(velocity[4]);
-
-        if (digitalRead(FBL_LS)) driveFBL(0);
-        else driveFBL(velocity[5]);
         
         for (int i = 0; i < count; i++)
         {
@@ -120,10 +112,20 @@ void loop()
             Serial.print(";"); // explicit carriage return + newline
         }
     }
-    if (digitalRead(FFR_LS)) driveFFR(0);
-    if (digitalRead(FFL_LS)) driveFFL(0);
-    if (digitalRead(FBR_LS)) driveFBR(0);
-    if (digitalRead(FBL_LS)) driveFBL(0);
+    driveMR(velocity[0]);
+    driveML(velocity[1]);
+    
+    if (digitalRead(FFR_LS) && velocity[2] < 0) driveFFR(0);
+    else driveFFR(velocity[2]);
+
+    if (digitalRead(FFL_LS) && velocity[3] > 0) driveFFL(0);
+    else driveFFL(velocity[3]);
+
+    if (digitalRead(FBR_LS) && velocity[4] > 0) driveFBR(0);
+    else driveFBR(velocity[4]);
+
+    if (digitalRead(FBL_LS) && velocity[5] < 0) driveFBL(0);
+    else driveFBL(velocity[5]);
 }
 
 void driveML(int spd)
