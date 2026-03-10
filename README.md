@@ -81,7 +81,10 @@ if the test went through
 rosrun joy joy_node _dev:=/dev/input/js0
 ```
 
-
+or 
+```
+rosrun joy joy_node _dev:=/dev/input/js0 _autorepeat_rate:=60
+```
 on the jetson
 
 ```
