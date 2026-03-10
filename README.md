@@ -43,6 +43,25 @@ run the docker file
 sudo docker run -it --rm --net=host --privileged --device=/dev/input/js0:/dev/input/js0 ros_melodic_joy
 ```
 
+or with display 
+
+```
+sudo docker run -it --rm --net=host --privileged \
+  --device=/dev/input/js0:/dev/input/js0 \
+  -e DISPLAY=$DISPLAY \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  ros_melodic_joy
+```
+
+```
+sudo docker run -it --rm --net=host --privileged \
+  --device=/dev/input/js0:/dev/input/js0 \
+  -e DISPLAY=$DISPLAY \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -v /home/deno/git/RoboOperation/rviz_configs/dual_camera.rviz:/dual_camera.rviz \
+  ros_melodic_joy
+```
+
 check your joystick id 
 
 ```
@@ -77,14 +96,56 @@ in another terminal
 rostopic echo /joy
 ```
 
-for getting the image
+# Image Gui
+
+after following the previous steps, run on the robot
+
+```
+python3
+```
+on robot
+
+
+afterwards, in the docker container of pc run
+
+
+```
+rviz -d /dual_camera.rviz
+```
+
+or to just view one img
+
 
 ```
 rosrun image_view image_view image:=/camera/image_raw
-```
+``` 
 
+# TMUX for quasi-pleasent ROS usage
 
-regarding  teensy
+## Tmux: Quick 2x2 Grid Guide
+
+Follow these steps to split your terminal into 4 equal panes (ideal for ROS nodes, logs, and teleop).
+
+### The Step-by-Step Command Sequence
+
+1.  **Open tmux**: Type `tmux` in your terminal.
+2.  **First Split (Side-by-Side)**: Press `Ctrl` + `b`, then `%`. 
+    * *Result: You now have 2 vertical columns.*
+3.  **Split the Right Pane**: Press `Ctrl` + `b`, then `"`. 
+    * *Result: The right side is now split into two rows.*
+4.  **Move Focus to the Left**: Press `Ctrl` + `b`, then `Left Arrow`.
+5.  **Split the Left Pane**: Press `Ctrl` + `b`, then `"`.
+    * *Result: You now have a perfect 4-pane grid.*
+
+---
+
+### Essential Navigation
+* **Switch Panes:** `Ctrl` + `b` + `Arrow Keys`
+* **Toggle Fullscreen (Zoom):** `Ctrl` + `b` + `z` (Repeat to shrink back)
+* **Cycle Layouts:** `Ctrl` + `b` + `Spacebar` (Useful if the 2x2 gets messy)
+* **Close Pane:** Type `exit` or `Ctrl` + `d`
+
+# regarding  teensy
 
 ls /dev/ttyACM*
 
