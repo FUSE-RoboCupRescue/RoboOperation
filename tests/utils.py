@@ -64,10 +64,17 @@ def joy2string(buttons, axes):
         track_right = MAX_LINEAR_VEL * axes[JOY_LEFT_Y]
         track_left = -1. * track_right
         
-        if axes[JOY_RIGHT_X] > 0:
-            track_right *= 0.5 * (1 - axes[JOY_RIGHT_X])
-        elif axes[JOY_RIGHT_X] < 0:
-            track_left *= 0.5 * (1 + axes[JOY_RIGHT_X])
+        if axes[JOY_RIGHT_X] > 0:  # Ackermann forward
+            if axes[JOY_RIGHT_X] > 0:
+                track_left *= 0.5 * (1 - axes[JOY_RIGHT_X])
+            elif axes[JOY_RIGHT_X] < 0:
+                track_right *= 0.5 * (1 + axes[JOY_RIGHT_X])
+        
+        else:  # Ackermann backwards
+            if axes[JOY_RIGHT_X] > 0:
+                track_right *= 0.5 * (1 - axes[JOY_RIGHT_X])
+            elif axes[JOY_RIGHT_X] < 0:
+                track_left *= 0.5 * (1 + axes[JOY_RIGHT_X])
     else:
         track_right = 0
         track_left = 0
