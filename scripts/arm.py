@@ -63,8 +63,8 @@ class XPiperController(Node):
             self.current_joint_state[1] += self.joint_step * axes[JOY_RIGHT_Y]
             self.current_joint_state[2] += self.joint_step * axes[JOY_LEFT_X]
             self.current_joint_state[3] += self.joint_step * axes[JOY_LEFT_X]
-            self.current_joint_state[4] += self.joint_step * axes[PAD_UP_DOWN]
-            self.current_joint_state[5] += self.joint_step * axes[PAD_RIGHT_LEFT]
+            self.current_joint_state[4] += self.joint_step * axes[PAD_X]
+            self.current_joint_state[5] += self.joint_step * axes[PAD_Y]
 
             point = JointTrajectoryPoint()
             point.positions = self.current_joint_state
