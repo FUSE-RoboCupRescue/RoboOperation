@@ -45,10 +45,23 @@ def joy2string(buttons, axes):
         # Linear movement
         track_right = MAX_LINEAR_VEL * axes[JOY_LEFT_Y]
         track_left = -1. * track_right
+        
     elif abs(axes[JOY_LEFT_Y]) < 0.1 and abs(axes[JOY_RIGHT_X]) > 0.1:  # Right Joystick Active
         # Rotational movement
         track_right = MAX_ANGULAR_VEL * axes[JOY_RIGHT_X]
         track_left = track_right
+        
+        if axes[PAD_Y] > 0:
+            if track_left > 0:
+                track_left = 0
+            elif track_right < 0:
+                track_right = 0
+
+        elif axes[PAD_Y] < 0:
+            if track_left < 0:
+                track_left = 0
+            elif track_right > 0:
+                track_right = 0
             
     elif abs(axes[JOY_LEFT_Y]) > 0.1 and abs(axes[JOY_RIGHT_X]) > 0.1:  # Both Joysticks Active
         # Ackermann Modus
