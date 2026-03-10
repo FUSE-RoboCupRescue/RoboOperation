@@ -11,10 +11,8 @@ JOY_LEFT_Y = 1
 JOY_RIGHT_X = 2
 JOY_RIGHT_Y = 3
 # This needs to be checked...
-PAD_UP = 4
-PAD_RIGHT = 5
-PAD_DOWN = 6
-PAD_LEFT = 7
+PAD_RIGHT_LEFT = 4  # Left positive right negative????
+PAD_UP_DOWN = 5
 
 MAX_FLIPPER_VEL = 60
 MAX_LINEAR_VEL = 100
