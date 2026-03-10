@@ -57,11 +57,11 @@ class JoyToTeensy:
                 
                 # Change control mode
                 if self.latest_buttons[BUTTON_X]:
-                    self.send_tracks_command("0 0 0 0 0 0")
+                    self.send_tracks_command("0 0 0 0 0 0 0")
                     self.mode = 0
                 
                 elif self.latest_buttons[BUTTON_Y]:
-                    self.send_tracks_command("0 0 0 0 0 0")
+                    self.send_tracks_command("0 0 0 0 0 0 0")
                     self.mode = 1
                 
                 # Control robot
@@ -74,7 +74,7 @@ class JoyToTeensy:
                     pass
 
                 else:
-                    self.send_tracks_command("0 0 0 0 0 0")
+                    self.send_tracks_command("0 0 0 0 0 0 0")
                 
             rate.sleep()
 
