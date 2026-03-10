@@ -35,6 +35,8 @@
 #define LIGHT 7
 
 int velocity[6];
+int light_on;
+bool light_switching;
 
 
 void setup()
@@ -75,6 +77,8 @@ void setup()
     velocity[3] = 0;
     velocity[4] = 0;
     velocity[5] = 0;
+    light_on = 0;
+    light_switching = false;
 
     driveMR(0);
     driveML(0);
@@ -88,9 +92,7 @@ void setup()
 }
 
 void loop()
-{
-    digitalWrite(LIGHT, 0);
-    
+{    
     if (Serial.available() > 0)
     {
         String incoming = Serial.readStringUntil('\n');
@@ -99,11 +101,25 @@ void loop()
         int count = 0;
         String temp = incoming;
 
-        while (temp.length() > 0 && count < 6)
+        while (temp.length() > 0 && count < 7)
         {
             int idx = temp.indexOf(' ');
             String token = (idx == -1) ? temp : temp.substring(0, idx);
-            velocity[count++] = token.toInt();
+            
+            if (count == 6) {
+                if (token.toInt() && !light_switching)
+                {
+                    light_on = light_on ? 0 : 1;
+                    light_switching = true;
+                }
+                else
+                {
+                    light_switching = false;
+                }
+            } else {
+                velocity[count++] = token.toInt();
+            }
+
             if (idx == -1)
                 break;
             temp = temp.substring(idx + 1);
@@ -133,6 +149,8 @@ void loop()
 
     if (digitalRead(FBL_LS) && velocity[5] < 0) driveFBL(0);
     else driveFBL(velocity[5]);
+ 
+    digitalWrite(LIGHT, light_on);
 }
 
 void driveML(int spd)
