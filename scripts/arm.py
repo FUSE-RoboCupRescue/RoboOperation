@@ -41,6 +41,7 @@ class XPiperController:
             self.current_joint_state[5] += self.joint_step * axes[PAD_Y]
 
             # Send joint command
+            self.current_joint_state = [max(min(j, 3.14), -3.14) for j in self.current_joint_state]
             self.piper.JointControl(*self.current_joint_state)
 
             time.sleep(0.05)
