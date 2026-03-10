@@ -48,22 +48,44 @@ def joy2string(buttons, axes):
         flipper_back = 0
 
     # Tank tracks
-    if abs(axes[JOY_LEFT_Y]) > 0.1 and abs(axes[JOY_RIGHT_X]) < 0.1:  # Linear movement
+    if abs(axes[JOY_LEFT_Y]) > 0.1 and abs(axes[JOY_RIGHT_X]) < 0.1:  # Left Joystick Active
+        # Linear movement
         track_right = MAX_LINEAR_VEL * axes[JOY_LEFT_Y]
         track_left = -1. * track_right
-    elif abs(axes[JOY_LEFT_Y]) < 0.1 and abs(axes[JOY_RIGHT_X]) > 0.1:  # Rotational movement
+    elif abs(axes[JOY_LEFT_Y]) < 0.1 and abs(axes[JOY_RIGHT_X]) > 0.1:  # Right Joystick Active
+        # Rotational movement
         track_right = MAX_ANGULAR_VEL * axes[JOY_RIGHT_X]
         track_left = track_right
+        
+        ############ Remove this later ############
+        if axes[JOY_RIGHT_X] > 0:
+            track_right *= 0
+        else:
+            track_left *= 0
+        ###########################################
+            
+    elif abs(axes[JOY_LEFT_Y]) > 0.1 and abs(axes[JOY_RIGHT_X]) > 0.1:  # Both Joysticks Active
+        # Ackermann Modus
+        track_right = MAX_LINEAR_VEL * axes[JOY_LEFT_Y]
+        track_left = -1. * track_right
+        
+        if axes[JOY_RIGHT_X] > 0:
+            track_right *= 0.5 * (1 - axes[JOY_RIGHT_X])
+        elif axes[JOY_RIGHT_X] < 0:
+            track_left *= 0.5 * (1 + axes[JOY_RIGHT_X])
     else:
         track_right = 0
         track_left = 0
+        
+    # Light
+    light_switch = 1 if buttons[BUTTON_B] else 0
 
     track_right = int(track_right)
     track_left = int(track_left)
     flipper_front = int(flipper_front)
     flipper_back = int(flipper_back)
 
-    out = f"{track_right} {track_left} {-flipper_front} {flipper_front} {flipper_back} {-flipper_back}"
+    out = f"{track_right} {track_left} {-flipper_front} {flipper_front} {flipper_back} {-flipper_back} {light_switch}"
     return out
 
 
