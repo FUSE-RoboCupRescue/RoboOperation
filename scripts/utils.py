@@ -17,8 +17,8 @@ PAD_DOWN = 6
 PAD_LEFT = 7
 
 MAX_FLIPPER_VEL = 60
-MAX_LINEAR_VEL = 150
-MAX_ANGULAR_VEL = 100  # Should be in radians but stfu
+MAX_LINEAR_VEL = 100
+MAX_ANGULAR_VEL = 50  # Should be in radians but stfu
 
 
 def joy2string(buttons, axes):
@@ -51,30 +51,17 @@ def joy2string(buttons, axes):
         # Rotational movement
         track_right = MAX_ANGULAR_VEL * axes[JOY_RIGHT_X]
         track_left = track_right
-        
-        ############ Remove this later ############
-        if axes[JOY_RIGHT_X] > 0:
-            track_right *= 0
-        else:
-            track_left *= 0
-        ###########################################
             
     elif abs(axes[JOY_LEFT_Y]) > 0.1 and abs(axes[JOY_RIGHT_X]) > 0.1:  # Both Joysticks Active
         # Ackermann Modus
         track_right = MAX_LINEAR_VEL * axes[JOY_LEFT_Y]
         track_left = -1. * track_right
         
-        if axes[JOY_RIGHT_X] > 0:  # Ackermann forward
-            if axes[JOY_RIGHT_X] > 0:
-                track_left *= 0.5 * (1 - axes[JOY_RIGHT_X])
-            elif axes[JOY_RIGHT_X] < 0:
-                track_right *= 0.5 * (1 + axes[JOY_RIGHT_X])
-        
-        else:  # Ackermann backwards
-            if axes[JOY_RIGHT_X] > 0:
-                track_right *= 0.5 * (1 - axes[JOY_RIGHT_X])
-            elif axes[JOY_RIGHT_X] < 0:
-                track_left *= 0.5 * (1 + axes[JOY_RIGHT_X])
+        if axes[JOY_RIGHT_X] > 0:
+            track_left *= 0.5 * (1 - axes[JOY_RIGHT_X])
+        elif axes[JOY_RIGHT_X] < 0:
+            track_right *= 0.5 * (1 + axes[JOY_RIGHT_X])
+                
     else:
         track_right = 0
         track_left = 0
