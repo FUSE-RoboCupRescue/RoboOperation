@@ -29,7 +29,7 @@ MAX_ANGULAR_VEL = 50  # Should be in radians but stfu
 def joy2string(buttons, axes):
     # This is just for the teensy!!!
 
-    if buttons[BUTTON_B]: return "0 0 0 0 0 0"  # Emergency STOP!!!
+    if buttons[BUTTON_B]: return "0 0 0 0 0 0 0"  # Emergency STOP!!!
 
     # Front flippers
     if buttons[BUTTON_RB] and not buttons[BUTTON_RT]:  # Move up
@@ -78,7 +78,7 @@ def joy2string(buttons, axes):
         track_left = 0
         
     # Light
-    light_switch = 1 if buttons[BUTTON_B] else 0
+    light_switch = 1 if buttons[BUTTON_A] else 0
 
     track_right = int(track_right)
     track_left = int(track_left)
