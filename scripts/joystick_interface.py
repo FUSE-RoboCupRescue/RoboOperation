@@ -4,7 +4,7 @@ from sensor_msgs.msg import Joy
 import serial
 import time
 from utils import *
-from arm import *
+#from arm import *
 
 # --- CONFIGURATION ---
 PORT = '/dev/ttyACM0'
@@ -32,7 +32,7 @@ class JoyToTeensy:
         # Subscribe to joystick
         self.sub = rospy.Subscriber("joy", Joy, self.joy_callback)
         rospy.loginfo("Bridge Node Ready.")
-        self.arm_ctrl = XPiperController()
+        #self.arm_ctrl = XPiperController()
 
         # Start the loop
         self.loop()
@@ -66,7 +66,8 @@ class JoyToTeensy:
                     self.send_tracks_command(msg)
                 
                 elif self.mode == 1:
-                    self.arm_ctrl.move(self.latest_buttons, self.latest_axes)
+                    # self.arm_ctrl.move(self.latest_buttons, self.latest_axes)
+                    pass
 
                 else:
                     self.send_tracks_command("0 0 0 0 0 0 0")

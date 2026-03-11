@@ -8,7 +8,7 @@ class XPiperController:
     def __init__(self):
 
         # Connect to Piper via CAN
-        self.piper = C_PiperInterface("can0")
+        self.piper = C_PiperInterface("can0", judge_flag=False)
         self.piper.ConnectPort()
 
         # Enable the arm
@@ -41,8 +41,8 @@ class XPiperController:
             self.current_joint_state[5] += self.joint_step * axes[PAD_Y]
 
             # Send joint command
-            self.current_joint_state = [max(min(j, 3.14), -3.14) for j in self.current_joint_state]
-            self.piper.JointControl(*self.current_joint_state)
+            self.current_joint_state = [int(1000*max(min(j, 3.14), -3.14)) for j in self.current_joint_state]
+            self.piper.JointCtrl(*self.current_joint_state)
 
             time.sleep(0.05)
             
