@@ -46,20 +46,20 @@ def joy2string(buttons, axes):
     if buttons[BUTTON_B]: return "0 0 0 0 0 0 0"  # Emergency STOP!!!
 
     # Front flippers
-    if buttons[BUTTON_RB] and not axes[BUTTON_RT] > 0:  # Move up
+    if buttons[BUTTON_RB] and axes[BUTTON_RT] > 0:  # Move up
         flipper_front = MAX_FLIPPER_VEL
         print("Front UP!")
-    elif not buttons[BUTTON_RB] and axes[BUTTON_RT] > 0:  # Move down
+    elif not buttons[BUTTON_RB] and not axes[BUTTON_RT] > 0:  # Move down
         flipper_front = -1. * MAX_FLIPPER_VEL
         print("Front DOWN!")
     else:
         flipper_front = 0
 
     # Back flippers
-    if buttons[BUTTON_LB] and not axes[BUTTON_LT] > 0:  # Move up
+    if buttons[BUTTON_LB] and axes[BUTTON_LT] > 0:  # Move up
         flipper_back = MAX_FLIPPER_VEL
         print("Back UP!")
-    elif not buttons[BUTTON_LB] and axes[BUTTON_LT] > 0:  # Move down
+    elif not buttons[BUTTON_LB] and not axes[BUTTON_LT] > 0:  # Move down
         flipper_back = -1. * MAX_FLIPPER_VEL
         print("Back DOWN!")
     else:
