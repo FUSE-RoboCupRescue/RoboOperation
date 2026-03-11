@@ -1,15 +1,36 @@
-BUTTON_X = 0
-BUTTON_A = 1
-BUTTON_B = 2
+# Logitech gamepad
+# BUTTON_X = 0
+# BUTTON_A = 1
+# BUTTON_B = 2
+# BUTTON_Y = 3
+# BUTTON_LB = 4
+# BUTTON_RB = 5
+# BUTTON_LT = 6
+# BUTTON_RT = 7
+# JOY_LEFT_X = 0
+# JOY_LEFT_Y = 1
+# JOY_RIGHT_X = 2
+# JOY_RIGHT_Y = 3
+# # This needs to be checked...
+# PAD_X = 4  # Left positive right negative????
+# PAD_Y = 5
+
+# Xbox gamepad
+BUTTON_X = 2
+BUTTON_A = 0
+BUTTON_B = 1
 BUTTON_Y = 3
 BUTTON_LB = 4
 BUTTON_RB = 5
-BUTTON_LT = 6
-BUTTON_RT = 7
+
+
+BUTTON_LT = 2 # Plus means active
+BUTTON_RT = 5
+
 JOY_LEFT_X = 0
 JOY_LEFT_Y = 1
-JOY_RIGHT_X = 2
-JOY_RIGHT_Y = 3
+JOY_RIGHT_X = 3
+JOY_RIGHT_Y = 4
 # This needs to be checked...
 PAD_X = 4  # Left positive right negative????
 PAD_Y = 5
@@ -25,18 +46,22 @@ def joy2string(buttons, axes):
     if buttons[BUTTON_B]: return "0 0 0 0 0 0 0"  # Emergency STOP!!!
 
     # Front flippers
-    if buttons[BUTTON_RB] and not buttons[BUTTON_RT]:  # Move up
+    if buttons[BUTTON_RB] and not axes[BUTTON_RT] > 0:  # Move up
         flipper_front = MAX_FLIPPER_VEL
-    elif not buttons[BUTTON_RB] and buttons[BUTTON_RT]:  # Move down
+        print("Front UP!")
+    elif not buttons[BUTTON_RB] and axes[BUTTON_RT] > 0:  # Move down
         flipper_front = -1. * MAX_FLIPPER_VEL
+        print("Front DOWN!")
     else:
         flipper_front = 0
 
     # Back flippers
-    if buttons[BUTTON_LB] and not buttons[BUTTON_LT]:  # Move up
+    if buttons[BUTTON_LB] and not axes[BUTTON_LT] > 0:  # Move up
         flipper_back = MAX_FLIPPER_VEL
-    elif not buttons[BUTTON_LB] and buttons[BUTTON_LT]:  # Move down
+        print("Back UP!")
+    elif not buttons[BUTTON_LB] and axes[BUTTON_LT] > 0:  # Move down
         flipper_back = -1. * MAX_FLIPPER_VEL
+        print("Back DOWN!")
     else:
         flipper_back = 0
 
@@ -51,17 +76,17 @@ def joy2string(buttons, axes):
         track_right = MAX_ANGULAR_VEL * axes[JOY_RIGHT_X]
         track_left = track_right
         
-        if axes[PAD_Y] > 0:
-            if track_left > 0:
-                track_left = 0
-            elif track_right < 0:
-                track_right = 0
+        # if axes[PAD_Y] > 0:
+        #     if track_left > 0:
+        #         track_left = 0
+        #     elif track_right < 0:
+        #         track_right = 0
 
-        elif axes[PAD_Y] < 0:
-            if track_left < 0:
-                track_left = 0
-            elif track_right > 0:
-                track_right = 0
+        # elif axes[PAD_Y] < 0:
+        #     if track_left < 0:
+        #         track_left = 0
+        #     elif track_right > 0:
+        #         track_right = 0
             
     elif abs(axes[JOY_LEFT_Y]) > 0.1 and abs(axes[JOY_RIGHT_X]) > 0.1:  # Both Joysticks Active
         # Ackermann Modus
