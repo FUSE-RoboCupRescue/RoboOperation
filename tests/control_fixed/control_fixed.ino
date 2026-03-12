@@ -86,6 +86,7 @@ void setup()
     driveFFL(0);
     driveFBR(0);
     driveFBL(0);
+    digitalWrite(LIGHT, 0);
 
     Serial.begin(115200);
     while (!Serial);
@@ -112,7 +113,7 @@ void loop()
                     light_on = light_on ? 0 : 1;
                     light_switching = true;
                 }
-                else
+                else if (!token.toInt())
                 {
                     light_switching = false;
                 }

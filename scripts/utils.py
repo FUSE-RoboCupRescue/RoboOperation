@@ -23,7 +23,6 @@ BUTTON_Y = 3
 BUTTON_LB = 4
 BUTTON_RB = 5
 
-
 BUTTON_LT = 2 # Plus means active
 BUTTON_RT = 5
 
