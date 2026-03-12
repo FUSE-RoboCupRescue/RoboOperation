@@ -33,6 +33,7 @@
 #define FBL_LS 27
 
 #define LIGHT 7
+#define MOTOR_PWR 25
 
 int velocity[6];
 int light_on;
@@ -70,6 +71,7 @@ void setup()
     pinMode(FBL_LS, INPUT);
 
     pinMode(LIGHT, OUTPUT);
+    pinMode(MOTOR_PWR, OUTPUT);
 
     velocity[0] = 0;
     velocity[1] = 0;
@@ -87,6 +89,7 @@ void setup()
     driveFBR(0);
     driveFBL(0);
     digitalWrite(LIGHT, 0);
+    digitalWrite(MOTOR_PWR, 0);
 
     Serial.begin(115200);
     while (!Serial);
@@ -152,6 +155,7 @@ void loop()
     else driveFBL(velocity[5]);
  
     digitalWrite(LIGHT, light_on);
+    digitalWrite(MOTOR_PWR, light_on);
 }
 
 void driveML(int spd)
