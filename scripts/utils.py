@@ -34,9 +34,9 @@ JOY_RIGHT_Y = 4
 PAD_X = 4  # Left positive right negative????
 PAD_Y = 5
 
-MAX_FLIPPER_VEL = 60
-MAX_LINEAR_VEL = 100
-MAX_ANGULAR_VEL = 50  # Should be in radians but stfu
+MAX_FLIPPER_VEL = 70
+MAX_LINEAR_VEL = 120
+MAX_ANGULAR_VEL = 150  # Should be in radians but stfu
 
 
 def joy2string(buttons, axes):
