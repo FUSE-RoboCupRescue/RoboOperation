@@ -102,7 +102,12 @@ def joy2string(buttons, axes):
         track_left = 0
         
     # Light
-    light_switch = 1 if buttons[BUTTON_A] else 0
+    if buttons[BUTTON_A]:
+        print("POWER ON!!!")
+        light_switch = 1
+    else:
+        print("POWER OFF!!!")
+        light_switch = 0
 
     track_right = int(track_right)
     track_left = int(track_left)
