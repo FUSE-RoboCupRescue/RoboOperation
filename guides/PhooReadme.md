@@ -34,7 +34,7 @@ python3 RoboOperation/scripts/joystick_interface
 in the ssh run 
 
 ```
-conda activte ...
+conda activte robocup
 python3 RoboOperation/scripts/camera_interace.py
 ```
 
